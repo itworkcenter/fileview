@@ -4,6 +4,7 @@ var fs = require("fs"),
     http = require("http"),
     url = require("url"),
     PATH = require("path"),
+    xss = require("xss"),
     PS = process;
 
 const PORT = 8088;
@@ -171,7 +172,7 @@ var argResponse = function (args) {
                                             name: fileObj,
                                             time: new Date(OBJState.mtime).toLocaleString()
                                         };
-                                    res.write("<tr><td class='name'><a class=type-" + (obj.isFile ? "file" : "dir") + " href=" + obj.path + ">" + obj.name + "</a></td><td class='date'>" + obj.time + "</td><td class='size'>" + obj.size + "</td></tr>");
+                                    res.write("<tr><td class='name'><a class=type-" + (obj.isFile ? "file" : "dir") + " href=" + encodeURI(obj.path) + ">" + xss(obj.name) + "</a></td><td class='date'>" + obj.time + "</td><td class='size'>" + obj.size + "</td></tr>");
                                 }
 
                                 res.write("          </tbody>");
